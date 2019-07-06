@@ -45,7 +45,7 @@
     </div>
 
     <div class="price-source">
-      <el-table :data="hotelData.products" style="width: 100%">
+      <el-table :data="hotelData.products" style="width: 100%" @row-click="handleJump">
         <el-table-column prop="name" label="价格来源" align="center" min-width="80"></el-table-column>
         <el-table-column prop="bestType" label="低价房型" min-width="150" align="center"></el-table-column>
         <el-table-column prop="price" label="最低价格/每晚" align="center">
@@ -56,6 +56,13 @@
           </template>
         </el-table-column>
       </el-table>
+    </div>
+
+    <div class="map">
+      <el-row>
+        <el-col :sapn="14"></el-col>
+        <el-col :sapn="10"></el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -113,12 +120,19 @@ export default {
   methods: {
     handleChange(index) {
       this.imgIndex = index;
+    },
+    handleJump() {
+      // console.log(5)
+      window.location.href = "https://hotels.ctrip.com/hotel/694679.html";
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
+/deep/ tr.el-table__row {
+  cursor: pointer;
+}
 .contianer {
   width: 1000px;
   margin: 20px auto;
