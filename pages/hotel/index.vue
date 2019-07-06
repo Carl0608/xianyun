@@ -5,7 +5,7 @@
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">酒店</el-breadcrumb-item>
         <el-breadcrumb-item>
-          <span>{{defalutData.name}}</span>酒店预订
+          <span>{{this.defalutCity}}</span>酒店预订
         </el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
@@ -76,7 +76,7 @@
     </el-row>
     <!-- 地图 -->
     <div class="container">
-      <Map />
+      <Map  />
     </div>
 
     <!-- 酒店筛选 -->
@@ -205,9 +205,14 @@ export default {
         brands: []
       },
       //初始数据
-      defalutData: {},
+      // defalutData:JSON.parse(localStorage.getItem('defalutHotelData')) || [],
+
       cityData: {},
+
       isShow: false,
+      //默认城市
+      defalutCity:'杭州市',
+      //搜索默认城市
       searchCity: "杭州市",
       cityName: "",
       searchDate: "",
@@ -274,16 +279,7 @@ export default {
   },
   mounted() {
     this.searchHotel();
-
-    this.$axios({
-      url: `/cities`,
-      method: "GET",
-      params: { name: this.searchCity }
-    }).then(res => {
-    //   console.log(res);
-      this.defalutData = res.data.data;
-      console.log(this.defalutData)
-    });
+    // console.log(this.defalutData)
   },
   watch: {},
   methods: {
@@ -301,18 +297,25 @@ export default {
         this.hotelData = res.data.data;
       });
     },
-    handleSelect() {},
+    handleSelect() {
+      this.defalutCity = this.searchCity
+      // console.log(this.$route.query.city-0)
+      // console.log()
+
+
+    },
     querySearch(name, cb) {
       this.$axios({
         url: `/cities`,
         method: "GET",
         params: { name: this.searchCity }
       }).then(res => {
-        console.log(res);
+        // console.log(res);
         if (this.searchCity == "") return;
         const { data } = res.data;
-        // console.log(cityData)
         this.cityData = res.data.data;
+        // console.log(111111111111)
+        // console.log(this.cityData)
 
         const newData = data.map(v => {
           return {
