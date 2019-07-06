@@ -4,7 +4,9 @@
     <el-row type="flex" class="Breadcrumb">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">酒店</el-breadcrumb-item>
-        <el-breadcrumb-item>杭州市酒店预订</el-breadcrumb-item>
+        <el-breadcrumb-item>
+          <span>{{this.defalutCity}}</span>酒店预订
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
 
@@ -74,7 +76,7 @@
     </el-row>
     <!-- 地图 -->
     <div class="container">
-      <!-- <Map/> -->
+      <Map  />
     </div>
 
     <!-- 酒店筛选 -->
@@ -200,10 +202,19 @@ export default {
         levels: [],
         types: [],
         assets: [],
-        brands:[]
+        brands: []
       },
+      //初始数据
+      // defalutData:JSON.parse(localStorage.getItem('defalutHotelData')) || [],
+
+      cityData: {},
+
       isShow: false,
-      searchCity: "",
+      //默认城市
+      defalutCity:'杭州市',
+      //搜索默认城市
+      searchCity: "杭州市",
+      cityName: "",
       searchDate: "",
       filterPrice: 4000,
       accommodationValue: "",
@@ -263,28 +274,61 @@ export default {
           value: "6 儿童",
           label: 6
         }
-      ],
+      ]
     };
   },
   mounted() {
-    this.$axios({
-      url: "hotels/options",
-      method: "GET"
-    }).then(res => {
-      console.log(res);
-      this.hotelData = res.data.data;
-    });
+    this.searchHotel();
+    // console.log(this.defalutData)
   },
+  watch: {},
   methods: {
     //控制卡片
     showCard() {
       this.isShow = !this.isShow;
     },
-    handleSelect() {},
-    querySearch() {}
+    //条件搜索酒店
+    searchHotel() {
+      this.$axios({
+        url: "hotels/options",
+        method: "GET"
+      }).then(res => {
+        // console.log(res);
+        this.hotelData = res.data.data;
+      });
+    },
+    handleSelect() {
+      this.defalutCity = this.searchCity
+      // console.log(this.$route.query.city-0)
+      // console.log()
+
+
+    },
+    querySearch(name, cb) {
+      this.$axios({
+        url: `/cities`,
+        method: "GET",
+        params: { name: this.searchCity }
+      }).then(res => {
+        // console.log(res);
+        if (this.searchCity == "") return;
+        const { data } = res.data;
+        this.cityData = res.data.data;
+        // console.log(111111111111)
+        // console.log(this.cityData)
+
+        const newData = data.map(v => {
+          return {
+            ...v,
+            value: v.name
+          };
+        });
+        cb(newData);
+      });
+    }
   },
   components: {
-    //   Map,
+    Map
   }
 };
 </script>
@@ -353,6 +397,11 @@ export default {
         background: transparent;
       }
     }
+  }
+
+  .container {
+    height: 260px;
+    margin-bottom: 20px;
   }
 }
 </style>
