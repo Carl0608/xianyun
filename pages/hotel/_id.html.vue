@@ -45,10 +45,16 @@
     </div>
 
     <div class="price-source">
-      <el-table :data="products" style="width: 100%">
-        <el-table-column prop="name" label="价格来源" width="180"></el-table-column>
-        <el-table-column prop="bestType" label="低价房型" width="180"></el-table-column>
-        <el-table-column prop="price" label="最低价格/每晚"></el-table-column>
+      <el-table :data="hotelData.products" style="width: 100%">
+        <el-table-column prop="name" label="价格来源" align="center" min-width="80"></el-table-column>
+        <el-table-column prop="bestType" label="低价房型" min-width="150" align="center"></el-table-column>
+        <el-table-column prop="price" label="最低价格/每晚" align="center">
+          <template v-slot="scoped">
+            <span class="orangeColor orange-price">￥{{scoped.row.price}}</span>
+            <span>起</span>
+            <span class="orangeColor el-icon-arrow-right"></span>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
   </div>
@@ -155,6 +161,14 @@ export default {
       width: 95%;
       margin-bottom: 15px;
       margin-left: -15px;
+    }
+  }
+  .price-source {
+    .orangeColor {
+      color: #ff9900;
+    }
+    .orange-price {
+      font-size: 18px;
     }
   }
 }
