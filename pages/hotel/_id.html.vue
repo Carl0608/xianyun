@@ -45,7 +45,7 @@
     </div>
 
     <div class="price-source">
-      <el-table :data="hotelData.products" style="width: 100%">
+      <el-table :data="hotelData.products" style="width: 100%" @row-click="handleJump">
         <el-table-column prop="name" label="价格来源" align="center" min-width="80"></el-table-column>
         <el-table-column prop="bestType" label="低价房型" min-width="150" align="center"></el-table-column>
         <el-table-column prop="price" label="最低价格/每晚" align="center">
@@ -57,24 +57,28 @@
         </el-table-column>
       </el-table>
     </div>
+
+    <div class="map">
+      <MapHotelDetail :pois="pois" :pois2="pois2" :hotelData="hotelData" />
+    </div>
   </div>
 </template>
 
 <script>
+import MapHotelDetail from "@/components/hotel/mapHotelDetail.vue";
 export default {
+  components: {
+    MapHotelDetail
+  },
+
   mounted() {
     const { id } = this.$route.params;
-    this.$axios({
-      url: "hotels",
-      method: "get",
-      params: { id }
-    }).then(res => {
-      // console.log(res);
-      this.hotelData = res.data.data[0];
-    });
+    this.init(id);
   },
   data() {
     return {
+      pois: [],
+      pois2: [],
       id: "",
       hotelData: {},
       imgIndex: 0,
@@ -85,40 +89,75 @@ export default {
         "http://157.122.54.189:9093/images/hotel-pics/4.jpeg",
         "http://157.122.54.189:9093/images/hotel-pics/5.jpeg",
         "http://157.122.54.189:9093/images/hotel-pics/6.jpeg"
-      ],
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄"
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1517 弄"
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1519 弄"
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1516 弄"
-        }
       ]
     };
   },
   methods: {
     handleChange(index) {
       this.imgIndex = index;
+    },
+    handleJump() {
+      // console.log(5)
+      window.location.href = "https://hotels.ctrip.com/hotel/694679.html";
+    },
+    async init(id) {
+      let res = await this.$axios({
+        url: "hotels",
+        method: "get",
+        params: { id }
+      });
+      // console.log(res);
+      this.hotelData = res.data.data[0];
+
+      this.$axios({
+        url: "https://restapi.amap.com/v3/place/text",
+        method: "get",
+        params: {
+          keywords: "",
+          city: this.hotelData.real_city,
+          location:
+            this.hotelData.location.longitude +
+            "," +
+            this.hotelData.location.latitude,
+          types: "风景名胜",
+          output: "json",
+          page: 1,
+          offset: 10,
+          key: "79041dfa1c752f49599e2b507c64da42"
+        }
+      }).then(res2 => {
+        this.pois = res2.data.pois;
+      });
+      this.$axios({
+        url: "https://restapi.amap.com/v3/place/text",
+        method: "get",
+        params: {
+          keywords: "",
+          city: this.hotelData.real_city,
+          location:
+            this.hotelData.location.longitude +
+            "," +
+            this.hotelData.location.latitude,
+          types: "交通设施服务",
+          output: "json",
+          page: 1,
+          offset: 10,
+          key: "79041dfa1c752f49599e2b507c64da42"
+        }
+      }).then(res3 => {
+        this.pois2 = res3.data.pois;
+      });
+
+      // console.log(res2.data.pois);
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
+/deep/ tr.el-table__row {
+  cursor: pointer;
+}
 .contianer {
   width: 1000px;
   margin: 20px auto;
@@ -164,6 +203,7 @@ export default {
     }
   }
   .price-source {
+    margin-bottom: 50px;
     .orangeColor {
       color: #ff9900;
     }
