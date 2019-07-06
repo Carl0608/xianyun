@@ -191,10 +191,17 @@
         </el-col>
       </el-row>
     </div>
+
+    <!-- 酒店选项 -->
+    <div class="hotel-list">
+      <HotelList/>
+    </div>
+    
   </div>
 </template>
 <script>
 import Map from "@/components/hotel/map.vue";
+import HotelList from "@/components/hotel/hotelList.vue";
 export default {
   data() {
     return {
@@ -293,6 +300,7 @@ export default {
         url: "hotels/options",
         method: "GET"
       }).then(res => {
+        // consli.log(33333)
         // console.log(res);
         this.hotelData = res.data.data;
       });
@@ -310,7 +318,7 @@ export default {
         method: "GET",
         params: { name: this.searchCity }
       }).then(res => {
-        // console.log(res);
+        // console.log(res);  
         if (this.searchCity == "") return;
         const { data } = res.data;
         this.cityData = res.data.data;
@@ -328,7 +336,8 @@ export default {
     }
   },
   components: {
-    Map
+    Map,
+    HotelList
   }
 };
 </script>
@@ -402,6 +411,10 @@ export default {
   .container {
     height: 260px;
     margin-bottom: 20px;
+  }
+  .hotel-list{
+    width: 1000px;
+    height: 2150px;
   }
 }
 </style>
