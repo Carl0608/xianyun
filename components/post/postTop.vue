@@ -12,10 +12,13 @@
     </p>
     <div>
         <span  class="gonglue">推荐攻略</span>
-        <el-button type="primary" icon="el-icon-edit" class="write"
-         @click="jump">
-          写游记
-        </el-button>
+       
+        <nuxt-link to="/post/create"> 
+            <el-button type="primary" icon="el-icon-edit" class="write"
+            @click="jump">
+              写游记
+            </el-button>
+        </nuxt-link>
     </div>
   </div>
 </template>
@@ -29,7 +32,7 @@ export default {
   },
   methods:{
     jump(){
-      // this.$route.push{ path: '', component: component }
+      this.$route.push({ path: "/create"})
     }
   }
 };

@@ -1,7 +1,9 @@
 <template>
   <div class="articleList">
     <div v-for="(item,index) in dataList" :key="index"  class="articleOne">
-      <h3>{{dataList[index].title}}</h3>
+      <nuxt-link to="/post/detail">
+          <h3>{{dataList[index].title}}</h3>
+      </nuxt-link>
       <div v-html="dataList[index].summary" class="articleDiv" ></div>
       <div v-for = "(item,index2) in List[index].images" :key="index2" class="articleImg">
               <img :src="dataList[index].images[index2]"/>
@@ -75,7 +77,7 @@ export default {
     >div{
         border-top:2px solid red;
         padding:20px 0;
-        >h3{
+        h3{
         // color:#333;
           font-weight:400;
           font-size:18px;
