@@ -1,15 +1,28 @@
 <template>
   <div class="articleList">
-    <div v-for="(item,index) in List" :key="index"  class="articleOne">
-      <h3>{{List[index].title}}</h3>
-      <div v-html="List[index].summary" class="articleDiv" ></div>
+    <div v-for="(item,index) in dataList" :key="index"  class="articleOne">
+      <h3>{{dataList[index].title}}</h3>
+      <div v-html="dataList[index].summary" class="articleDiv" ></div>
       <div v-for = "(item,index2) in List[index].images" :key="index2" class="articleImg">
-              <img :src="List[index].images[index2]"/>
+              <img :src="dataList[index].images[index2]"/>
       </div>
       <el-row>
 
       </el-row>
     </div>
+
+    <!-- 分页 -->
+        <div class="block">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="pageIndex"
+            :page-sizes="[3, 5, 10, 15]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="List.length"
+          ></el-pagination>
+        </div>
   </div>
 </template>
 
@@ -18,7 +31,32 @@ export default {
   data() {
     return {
       List: [],
+      pageIndex:1,
+      pageSize:3,
+      dataList:[],
     };
+  },
+  methods: {
+    //设置数据列表从哪条开始到哪条结束，并显示对应index的数据
+      setDataList(arr) {
+      if (arr) {
+        this.List = arr;
+      }
+      const start = (this.pageIndex - 1) * this.pageSize;
+      const end = start + this.pageSize;
+      this.dataList = this.List.slice(start, end);
+    },
+    //切换条数时触发
+    handleSizeChange(value) {
+      this.pageSize = value;
+      this.pageIndex = 1;
+      this.setDataList();
+    },
+    //切换页数时触发
+    handleCurrentChange(value) {
+      this.pageIndex = value;
+      this.setDataList();
+    }
   },
   mounted() {
     this.$axios({
@@ -26,6 +64,7 @@ export default {
     }).then(res => {
       console.log(res);
       this.List = res.data.data;
+      this.setDataList();
     });
   }
 };

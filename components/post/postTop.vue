@@ -12,13 +12,27 @@
     </p>
     <div>
         <span  class="gonglue">推荐攻略</span>
-        <el-button type="primary" icon="el-icon-edit" class="write">写游记</el-button>
+        <el-button type="primary" icon="el-icon-edit" class="write"
+         @click="jump">
+          写游记
+        </el-button>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data(){
+    return{
+
+    }
+  },
+  methods:{
+    jump(){
+      // this.$route.push{ path: '', component: component }
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
 .postTop{
