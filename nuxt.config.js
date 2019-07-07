@@ -15,7 +15,7 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_1168872_ehvuah8v57g.css' },
       { rel: 'stylesheet', type: 'text/css', href: '//at.alicdn.com/t/font_1279424_fgj2vhguz6s.css' }
-    
+
     ]
   },
   /*
@@ -27,7 +27,12 @@ export default {
   */
   css: [
     'element-ui/lib/theme-chalk/index.css',
-    'assets/main.css' // 新增自定义的页面过渡样式
+    'assets/main.css',// 新增自定义的页面过渡样式
+    
+    // 富文本框vue-quill-editor
+    'quill/dist/quill.snow.css',
+    'quill/dist/quill.bubble.css',
+    'quill/dist/quill.core.css',
   ],
   /*
   ** Plugins to load before mounting the App
@@ -35,7 +40,8 @@ export default {
   plugins: [
     '@/plugins/element-ui',
     '@/plugins/axios',
-    { src: '@/plugins/localStorage', ssr: false }
+    { src: '@/plugins/localStorage', ssr: false },
+    {src:'@/plugins/vue-quill-editor', ssr:false },
   ],
   /*
   ** Nuxt.js modules
