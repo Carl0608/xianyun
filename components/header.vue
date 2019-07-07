@@ -12,7 +12,7 @@
       <el-row type="flex" class="navs">
         <nuxt-link to="/">首页</nuxt-link>
         <nuxt-link to="/post">旅游攻略</nuxt-link>
-        <nuxt-link to="/hotel">酒店</nuxt-link>
+        <nuxt-link :to="{path:'/hotel',query:{city:`${this.id}`}}">酒店</nuxt-link>
         <nuxt-link to="/air">国内机票</nuxt-link>
       </el-row>
 
@@ -48,9 +48,24 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      defalutCity:'杭州市',
+      id:0
+    };
   },
-  mounted() {},
+  mounted() {
+    this.$axios({
+      url: `/cities`,
+      method: "GET",
+      params: { name: this.defalutCity }
+    }).then(res => {
+      
+      this.id= res.data.data[0].id
+      
+      localStorage.setItem('defalutHotelData',JSON.stringify(res.data.data))
+    });
+    
+  },
   methods: {
     clear(){
       this.$store.commit('user/clearUserInfo')
