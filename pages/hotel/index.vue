@@ -414,7 +414,8 @@ export default {
   }
   .hotel-list{
     width: 1000px;
-    height: 2150px;
+    height: 2440px;
+    // height: 100%;
   }
 }
 </style>
