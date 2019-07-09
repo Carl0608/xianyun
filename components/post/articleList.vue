@@ -1,10 +1,12 @@
 <template>
   <div class="articleList">
     <div v-for="(item,index) in dataList" :key="index"  class="articleOne">
-      <nuxt-link :to="`/post/detail?id=${dataList[index].id}`">
-          <h3>{{dataList[index].title}}</h3>
-      </nuxt-link>
-      <div v-html="dataList[index].summary" class="articleDiv" ></div>
+      <div :class="dataList[index].images.length==1?'artilceCss':''">
+        <nuxt-link :to="`/post/detail?id=${dataList[index].id}`">
+            <h3>{{dataList[index].title}}</h3>
+        </nuxt-link>
+        <div v-html="dataList[index].summary" class="articleDiv" ></div>
+      </div>
       <div v-for = "(item,index2) in List[index].images" :key="index2" class="articleImg">
               <img :src="dataList[index].images[index2]"/>
       </div>
@@ -94,6 +96,10 @@ export default {
         color:#666;
         line-height:1.5;
         margin-bottom:10px;
+    }
+    .artilceCss{
+      float:right;
+      width:60%;
     }
     .articleImg {
        img{
