@@ -45,57 +45,46 @@ export default {
   mounted() {},
   data() {
     return {
-      activeName: "first"
+      activeName: "first",
+      currentPois: []
     };
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
+      console.log(tab.index);
     }
   },
   mounted() {
     let timer = setTimeout(() => {
       // console.log(this.hotelData);
+      this.currentPois = this.pois;
       window.onLoad = () => {
-        let x = this.hotelData.location.longitude;
-        let y = this.hotelData.location.latitude;
+        let arr = this.currentPois[0].location.split(",");
+        let x = arr[0];
+        let y = arr[1];
 
         var map = new AMap.Map("container", {
-          zoom: 11,
+          // zoom: 14,
           center: [x, y]
-          // viewMode: "3D"
-          // layers: [
-          //   //使用多个图层
-          //   new AMap.TileLayer.Satellite(),
-          //   new AMap.TileLayer.RoadNet()
-          // ]
         });
         var markerList = [];
-        this.pois.forEach(v => {
-          console.log(v.location.split(",").map(v2 => v2 - 0));
+        this.currentPois.forEach((v, i) => {
+          // console.log(v.location.split(",").map(v2 => v2 - 0));
           var marker = new AMap.Marker({
             position: v.location.split(",").map(v2 => v2 - 0), //位置
-            // content:
+            snippet: "1",
             //   '<div style="width:100px;height:100px;font-size:50px;font-weight:600;color:rgb(97, 97, 255)" class="iconfont icon-dingwei2"></div>',
-            // title: "北京"
+            title: `${i}`
           });
           markerList.push(marker);
         });
-        console.log(markerList);
-        //   var trafficLayer = new AMap.TileLayer.Traffic({
-        //     zIndex: 10
-        //   });
-
-        var points = [
-          { keyword: "吉山幼儿园", city: "广州" },
-          { keyword: "体育西路", city: "广州" }
-        ];
-
+        // console.log(markerList);
         var toolbar = new AMap.ToolBar();
         map.addControl(toolbar);
         // map.add(marker);
 
         map.add(markerList);
+        map.setFitView();
         //   map.add(trafficLayer); //添加图层到地图
       };
       var url =
