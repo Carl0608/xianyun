@@ -4,18 +4,17 @@
       <el-input placeholder="请输入内容" suffix-icon="el-icon-search"  id="inputSearch">
       </el-input>
     </div>
-    <p class="topTui">
+    <div class="topTui">
         推荐:
-        <nuxt-link to="">广州 </nuxt-link>
-        <nuxt-link to="">上海 </nuxt-link>
-        <nuxt-link to="">北京 </nuxt-link>
-    </p>
+        <span ><nuxt-link to="">广州 </nuxt-link></span>
+        <span><nuxt-link to="">上海 </nuxt-link></span>
+        <span><nuxt-link to="">北京 </nuxt-link></span>
+    </div>
     <div>
         <span  class="gonglue">推荐攻略</span>
        
         <nuxt-link to="/post/create"> 
-            <el-button type="primary" icon="el-icon-edit" class="write"
-            @click="jump">
+            <el-button type="primary" icon="el-icon-edit" class="write">
               写游记
             </el-button>
         </nuxt-link>
@@ -27,13 +26,11 @@
 export default {
   data(){
     return{
-
+       
     }
   },
   methods:{
-    jump(){
-      this.$route.push({ path: "/create"})
-    }
+
   }
 };
 </script>
@@ -50,6 +47,11 @@ export default {
         margin-bottom:10px;
         color:#666;
         font-size:12px;
+        span{
+          &:hover{
+            color:orange !important;
+          }
+        }
     }
     .gonglue{
         color:orange;

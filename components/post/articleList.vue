@@ -1,7 +1,7 @@
 <template>
   <div class="articleList">
     <div v-for="(item,index) in dataList" :key="index"  class="articleOne">
-      <nuxt-link to="/post/detail">
+      <nuxt-link :to="`/post/detail?id=${dataList[index].id}`">
           <h3>{{dataList[index].title}}</h3>
       </nuxt-link>
       <div v-html="dataList[index].summary" class="articleDiv" ></div>
@@ -75,13 +75,16 @@ export default {
 .articleList {
       width: 705px;
     >div{
-        border-top:2px solid red;
+        border-top:2px solid #eee;
         padding:20px 0;
         h3{
         // color:#333;
           font-weight:400;
           font-size:18px;
           padding:10px 0;
+          &:hover{
+            color:orange;
+          }
         }
     }
     .articleDiv{
@@ -97,7 +100,7 @@ export default {
         width:220px;
         float:left;
         height:150px;
-        border:2px solid red;
+        // border:2px solid red;
         margin:5px;
       }
     }
