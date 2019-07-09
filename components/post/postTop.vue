@@ -1,7 +1,7 @@
 <template>
   <div class="postTop">
     <div class="topSearch">
-      <el-input placeholder="请输入内容" suffix-icon="el-icon-search"  id="inputSearch">
+      <el-input placeholder="请输入想去的地方：比如-广州" suffix-icon="el-icon-search"  id="inputSearch">
       </el-input>
     </div>
     <div class="topTui">
@@ -38,10 +38,13 @@ export default {
 .postTop{
     .topSearch{
          margin-bottom:10px;
-        #inputSearch:focus{
-          border:3px solid orange;
-         
+        #inputSearch{
+          &:focus{
+            border:3px solid orange;
+            outline-color: orange;
+          }
         }
+
     }
     .topTui{
         margin-bottom:10px;

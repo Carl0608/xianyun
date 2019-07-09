@@ -8,8 +8,11 @@
         <div v-html="dataList[index].summary" class="articleDiv" ></div>
       </div>
       <div v-for = "(item,index2) in List[index].images" :key="index2" class="articleImg">
+        <div class="new" v-show="index2<3">
               <img :src="dataList[index].images[index2]"/>
+        </div>
       </div>
+      
       <el-row>
 
       </el-row>
