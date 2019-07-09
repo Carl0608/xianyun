@@ -1,6 +1,6 @@
 <template>
-  <div class="postCascader">
-    <div v-for="(item,index) in data" :key="index" @mouseout="handleOut">
+  <div class="postCascader" @mouseleave="handleOut">
+    <div v-for="(item,index) in data" :key="index">
       <div @mouseover="handleTuijian(index)">
         <el-row class="hotCity" type="flex">
           <!-- <div @click="handleOver(index)"></div> -->
@@ -28,7 +28,7 @@
             <span>{{data[currentIndex].children[index2].city}}</span>
           </el-col>
           <el-col :span="18">
-            <nuxt-link to>{{data[currentIndex].children[index2].desc}}</nuxt-link>
+            <el-link to="#" class="linkL">{{data[currentIndex].children[index2].desc}}</el-link>
           </el-col>
         </el-row>
       </div>
@@ -126,6 +126,11 @@ export default {
   font-size: 14px;
   color: #666;
   width: 35%;
+  .linkL{
+    &:hover{
+      color:#333;
+    }
+  }
   .erji {
     // border-left:2px solid red;
     i {
