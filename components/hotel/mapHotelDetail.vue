@@ -68,8 +68,9 @@ export default {
           center: [x, y]
         });
         var markerList = [];
+        // console.log(this.currentPois);
         this.currentPois.forEach((v, i) => {
-          // console.log(v.location.split(",").map(v2 => v2 - 0));
+          console.log(v);
           var marker = new AMap.Marker({
             position: v.location.split(",").map(v2 => v2 - 0), //位置
             snippet: "1",
@@ -93,7 +94,7 @@ export default {
       jsapi.charset = "utf-8";
       jsapi.src = url;
       document.head.appendChild(jsapi);
-    }, 100);
+    }, 600);
   }
 };
 </script>
